@@ -116,17 +116,21 @@ REM ================= 4/4  同步并推送 =================
 echo [4/4] 同步远程并推送...
 "%GIT_EXE%" fetch origin
 "%GIT_EXE%" rev-parse --verify origin/main >nul 2>nul
-if not errorlevel 1 "%GIT_EXE%" rebase origin/main
 if errorlevel 1 (
-  echo        [提示] 与远程（可能是自动更新产生的提交）有冲突，
-  echo               改为保留本地版本重新合并...
-  "%GIT_EXE%" rebase --abort >nul 2>nul
-  "%GIT_EXE%" merge -X ours origin/main -m "Merge remote config" >nul
-  if errorlevel 1 (
-    echo [错误] 自动合并失败，请把上面的内容截图发给我。
-    goto :fail
-  )
+  echo        远程还没有 main 分支（首次推送到空仓库），跳过合并直接推。
+  goto :sync_done
 )
+"%GIT_EXE%" rebase origin/main
+if not errorlevel 1 goto :sync_done
+echo        [提示] 与远程（可能是自动更新产生的提交）有冲突，
+echo               改为保留本地版本重新合并...
+"%GIT_EXE%" rebase --abort >nul 2>nul
+"%GIT_EXE%" merge -X ours origin/main -m "Merge remote config" >nul
+if not errorlevel 1 goto :sync_done
+echo [错误] 自动合并失败，请把上面的内容截图发给我。
+goto :fail
+
+:sync_done
 
 REM ---------- 令牌来源：优先读 token.txt（免手动粘贴） ----------
 set "TOKENFILE=%REPO_DIR%\token.txt"
