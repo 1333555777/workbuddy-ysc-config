@@ -7,20 +7,20 @@
 <!--STATUS_START-->
 ## 一、源可用性状态
 
-> 🔄 最近更新：2026-10-22 16:54:23（北京时间） · 成功 **3/10** 个源
+> 🔄 最近更新：2026-10-23 02:24:50（北京时间） · 成功 **10/10** 个源
 
 | 配置源 | 状态 | 类型 | 说明 |
 |---|---|---|---|
-| 肥猫 | ❌ 失败 | - | https://6296.kstore.vip/facat.json: HTTP Error 401:  |
-| 饭太硬 | ❌ 失败 | - | http://www.饭太硬.xyz/tv: HTTP Error 403: Forbidden |
+| 肥猫 | ✅ 成功 | single | - |
 | 王二小 | ✅ 成功 | single | - |
 | 老刘备 | ✅ 成功 | single | - |
 | 小马 | ✅ 成功 | single | - |
-| 讴歌 | ❌ 失败 | - | https://欧歌.v.nxog.top/m/: <urlopen error [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:10 |
-| 4K小盒子 | ❌ 失败 | - | http://xhztv.top/xhz: HTTP Error 403: Forbidden |
-| 小盒子单仓 | ❌ 失败 | - | http://xhztv.top/xhz: HTTP Error 403: Forbidden |
-| 拾光多仓 | ❌ 失败 | - | http://xmbjm.fh4u.org/dc.txt: HTTP Error 403: Forbidden |
-| 挺好分享多仓 | ❌ 失败 | - | http://ztha.top/TVBox/GYCK.json: HTTP Error 403: Forbidden |
+| 4K小盒子 | ✅ 成功 | single | - |
+| 小盒子单仓 | ✅ 成功 | single | - |
+| 拾光多仓 | ✅ 成功 | - | 无法解析为 JSON |
+| 挺好分享多仓 | ✅ 成功 | multi | - |
+| 佳佳在线·小沙 | ✅ 成功 | single | - |
+| 佳佳在线·论坛 | ✅ 成功 | single | - |
 <!--STATUS_END-->
 
 ## 二、在影视仓 / TVBox 中使用

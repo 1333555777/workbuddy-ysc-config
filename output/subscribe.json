@@ -1,16 +1,44 @@
 {
   "urls": [
     {
+      "name": "肥猫",
+      "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/feimao.json"
+    },
+    {
       "name": "王二小",
-      "url": "https://cdn.jsdelivr.net/gh/GITHUB_USER/workbuddy-ysc-config@main/output/wangerxiao.json"
+      "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/wangerxiao.json"
     },
     {
       "name": "老刘备",
-      "url": "https://cdn.jsdelivr.net/gh/GITHUB_USER/workbuddy-ysc-config@main/output/laoliubei.json"
+      "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/laoliubei.json"
     },
     {
       "name": "小马",
-      "url": "https://cdn.jsdelivr.net/gh/GITHUB_USER/workbuddy-ysc-config@main/output/xiaoma.json"
+      "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/xiaoma.json"
+    },
+    {
+      "name": "4K小盒子",
+      "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/4k.json"
+    },
+    {
+      "name": "小盒子单仓",
+      "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/xiaohezi.json"
+    },
+    {
+      "name": "拾光多仓",
+      "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/shiguang.json"
+    },
+    {
+      "name": "挺好分享多仓",
+      "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/tinghao.json"
+    },
+    {
+      "name": "佳佳在线·小沙",
+      "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/jiajia_xiaosha.json"
+    },
+    {
+      "name": "佳佳在线·论坛",
+      "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/jiajia_jieluntan.json"
     }
   ]
 }

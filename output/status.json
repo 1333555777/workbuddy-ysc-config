@@ -1,19 +1,13 @@
 {
-  "updated_at": "2026-10-22 16:54:23",
-  "success": 3,
+  "updated_at": "2026-10-23 02:24:50",
+  "success": 10,
   "total": 10,
   "sources": {
     "feimao": {
       "name": "肥猫",
-      "ok": false,
-      "type": null,
-      "error": "https://6296.kstore.vip/facat.json: HTTP Error 401: "
-    },
-    "fantaiying": {
-      "name": "饭太硬",
-      "ok": false,
-      "type": null,
-      "error": "http://www.饭太硬.xyz/tv: HTTP Error 403: Forbidden"
+      "ok": true,
+      "type": "single",
+      "error": null
     },
     "wangerxiao": {
       "name": "王二小",
@@ -33,35 +27,41 @@
       "type": "single",
       "error": null
     },
-    "ouge": {
-      "name": "讴歌",
-      "ok": false,
-      "type": null,
-      "error": "https://欧歌.v.nxog.top/m/: <urlopen error [SSL: SSLV3_ALERT_HANDSHAKE_FAILURE] ssl/tls alert handshake failure (_ssl.c:1032)>"
-    },
     "4k": {
       "name": "4K小盒子",
-      "ok": false,
-      "type": null,
-      "error": "http://xhztv.top/xhz: HTTP Error 403: Forbidden"
+      "ok": true,
+      "type": "single",
+      "error": null
     },
     "xiaohezi": {
       "name": "小盒子单仓",
-      "ok": false,
-      "type": null,
-      "error": "http://xhztv.top/xhz: HTTP Error 403: Forbidden"
+      "ok": true,
+      "type": "single",
+      "error": null
     },
     "shiguang": {
       "name": "拾光多仓",
-      "ok": false,
+      "ok": true,
       "type": null,
-      "error": "http://xmbjm.fh4u.org/dc.txt: HTTP Error 403: Forbidden"
+      "error": "无法解析为 JSON"
     },
     "tinghao": {
       "name": "挺好分享多仓",
-      "ok": false,
-      "type": null,
-      "error": "http://ztha.top/TVBox/GYCK.json: HTTP Error 403: Forbidden"
+      "ok": true,
+      "type": "multi",
+      "error": null
+    },
+    "jiajia_xiaosha": {
+      "name": "佳佳在线·小沙",
+      "ok": true,
+      "type": "single",
+      "error": null
+    },
+    "jiajia_jieluntan": {
+      "name": "佳佳在线·论坛",
+      "ok": true,
+      "type": "single",
+      "error": null
     }
   }
 }
