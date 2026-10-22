@@ -1,0 +1,9 @@
+# 密钥与本地临时文件（绝不入库）
+token.txt
+*.log
+wb-*.bat
+wb-*.txt
+
+# Python
+__pycache__/
+*.pyc

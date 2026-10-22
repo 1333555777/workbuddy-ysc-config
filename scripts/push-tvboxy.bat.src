@@ -1,0 +1,240 @@
+@echo off
+@rem ==========================================================
+@rem  佳佳在线 · 推送到 GitHub
+@rem  使用前必须改下面三组变量：
+@rem    REPO_DIR   = 本地配置仓库路径（本文件夹）
+@rem    REMOTE_URL = 目标 GitHub 仓库 https 地址
+@rem    USERNAME   = 你的 GitHub 用户名（脚本里的 1333555777 也要一起替换）
+@rem  源文件是 UTF-8，必须用 scripts/encode_bat.py 转成 GBK+CRLF 才能双击运行
+@rem ==========================================================
+chcp 936 >nul
+title 佳佳在线 - 推送到 GitHub
+
+set "REPO_DIR=C:\Users\Administrator\WorkBuddy\2026-10-22-16-24-22\workbuddy-ysc-config"
+set "REMOTE_URL=https://github.com/1333555777/workbuddy-ysc-config.git"
+
+echo ==========================================================
+echo   佳佳在线 · 配置推送到 GitHub
+echo   目标仓库: 1333555777/workbuddy-ysc-config
+echo ==========================================================
+echo.
+
+if not exist "%REPO_DIR%\" (
+  echo [错误] 找不到目录:
+  echo        %REPO_DIR%
+  echo        请把本仓库文件夹放到该路径，或修改脚本里的 REPO_DIR。
+  goto :fail
+)
+
+REM ================= 1/4  查找 git =================
+set "GIT_EXE="
+set "PGROOT=%USERPROFILE%\.workbuddy\binaries\PortableGit\versions"
+
+where git >nul 2>nul
+if not errorlevel 1 set "GIT_EXE=git"
+if defined GIT_EXE goto :got_git
+
+if exist "%PGROOT%\current" for /f "usebackq delims=" %%V in (`type "%PGROOT%\current"`) do set "PGVER=%%V"
+if defined PGVER if exist "%PGROOT%\%PGVER%\mingw64\bin\git.exe" set "GIT_EXE=%PGROOT%\%PGVER%\mingw64\bin\git.exe"
+if defined GIT_EXE if defined PGVER set "GIT_ROOT=%PGROOT%\%PGVER%"
+if defined GIT_EXE goto :got_git
+
+for /d %%D in ("%PGROOT%\*") do (
+  if exist "%%~fD\mingw64\bin\git.exe" if not defined GIT_EXE (
+    set "GIT_EXE=%%~fD\mingw64\bin\git.exe"
+    set "GIT_ROOT=%%~fD"
+  )
+)
+if defined GIT_EXE goto :got_git
+
+if defined PGVER if exist "%PGROOT%\%PGVER%\cmd\git.exe" set "GIT_EXE=%PGROOT%\%PGVER%\cmd\git.exe"
+if defined GIT_EXE if defined PGVER set "GIT_ROOT=%PGROOT%\%PGVER%"
+if defined GIT_EXE goto :got_git
+for /d %%D in ("%PGROOT%\*") do (
+  if exist "%%~fD\cmd\git.exe" if not defined GIT_EXE (
+    set "GIT_EXE=%%~fD\cmd\git.exe"
+    set "GIT_ROOT=%%~fD"
+  )
+)
+if defined GIT_EXE goto :got_git
+
+for %%P in ("C:\Program Files\Git\cmd\git.exe" "C:\Program Files (x86)\Git\cmd\git.exe" "%LOCALAPPDATA%\Programs\Git\cmd\git.exe" "D:\Git\cmd\git.exe" "D:\Program Files\Git\cmd\git.exe") do if exist "%%~P" if not defined GIT_EXE set "GIT_EXE=%%~P"
+if defined GIT_EXE goto :got_git
+
+echo [错误] 没有找到 git 程序。
+echo        解决办法：安装 Git for Windows
+echo        下载地址: https://git-scm.com/download/win
+goto :fail
+
+:got_git
+REM 便携版 git 需要把 mingw64\bin 加进 PATH，否则 https 传输组件找不到
+if defined GIT_ROOT if exist "%GIT_ROOT%\mingw64\bin" set "PATH=%GIT_ROOT%\mingw64\bin;%PATH%"
+if defined GIT_ROOT if exist "%GIT_ROOT%\cmd" set "PATH=%GIT_ROOT%\cmd;%PATH%"
+if defined GIT_ROOT if exist "%GIT_ROOT%\mingw64\bin" set "GIT_EXEC_PATH=%GIT_ROOT%\mingw64\bin"
+echo        git 主目录: %GIT_ROOT%
+echo [1/4] git 已就绪: %GIT_EXE%
+"%GIT_EXE%" --version
+
+REM ================= 2/4  进入仓库 =================
+cd /d "%REPO_DIR%"
+if not exist ".git" (
+  echo [2/4] 首次运行，正在初始化仓库...
+  "%GIT_EXE%" init -b main
+  "%GIT_EXE%" remote add origin "%REMOTE_URL%"
+  "%GIT_EXE%" fetch origin
+  "%GIT_EXE%" rev-parse --verify origin/main >nul 2>nul
+  if not errorlevel 1 "%GIT_EXE%" reset origin/main
+  "%GIT_EXE%" checkout -- README.md 2>nul
+) else (
+  echo [2/4] 仓库已就绪。
+  "%GIT_EXE%" remote set-url origin "%REMOTE_URL%" >nul 2>nul
+)
+REM 清空继承来的凭据助手（系统的 helper-selector 会弹菜单，干扰自动推送）
+"%GIT_EXE%" config --local --unset-all credential.helper >nul 2>nul
+"%GIT_EXE%" config --local --add credential.helper ""
+"%GIT_EXE%" config --local credential.username "1333555777"
+
+REM ================= 3/4  打包本地改动 =================
+echo [3/4] 检查本地有没有新改动...
+"%GIT_EXE%" add -A
+"%GIT_EXE%" ls-files --error-unmatch .github/workflows/update.yml >nul 2>nul
+if not errorlevel 1 (
+  echo        [含工作流] .github\workflows\update.yml 已在本次推送中。
+) else (
+  echo        [注意] 没检测到 .github\workflows\update.yml，
+  echo              检查 .git\info\exclude 里是否被忽略了。
+)
+"%GIT_EXE%" diff --cached --quiet
+if errorlevel 1 (
+  "%GIT_EXE%" commit -m "Auto update config" >nul
+  echo        已把最新改动打包成一个提交。
+) else (
+  echo        没有新改动，直接推送已有提交。
+)
+
+REM ================= 4/4  同步并推送 =================
+echo [4/4] 同步远程并推送...
+"%GIT_EXE%" fetch origin
+"%GIT_EXE%" rev-parse --verify origin/main >nul 2>nul
+if not errorlevel 1 "%GIT_EXE%" rebase origin/main
+if errorlevel 1 (
+  echo        [提示] 与远程（可能是自动更新产生的提交）有冲突，
+  echo               改为保留本地版本重新合并...
+  "%GIT_EXE%" rebase --abort >nul 2>nul
+  "%GIT_EXE%" merge -X ours origin/main -m "Merge remote config" >nul
+  if errorlevel 1 (
+    echo [错误] 自动合并失败，请把上面的内容截图发给我。
+    goto :fail
+  )
+)
+
+REM ---------- 令牌来源：优先读 token.txt（免手动粘贴） ----------
+set "TOKENFILE=%REPO_DIR%\token.txt"
+set "TOKEN="
+if exist "%TOKENFILE%" for /f "usebackq delims=" %%T in (`powershell -NoProfile -ExecutionPolicy Bypass -Command "$t=Get-Content -LiteralPath '%TOKENFILE%' -TotalCount 1 -ErrorAction SilentlyContinue; if($t){$t.Trim()}"`) do set "TOKEN=%%T"
+if defined TOKEN goto :have_token
+
+echo.
+echo ==========================================================
+echo   ！黑框里按 Ctrl+V 是【粘不进去】的！
+echo   正确做法：在本窗口内【点一下鼠标右键】= 粘贴
+echo   粘完屏幕上【不会显示任何字符】（密码不回显），
+echo   这是正常的，直接按回车键即可。
+echo ==========================================================
+echo.
+goto :push_now
+
+:have_token
+set "GIT_ASKPASS=%USERPROFILE%\wb-git-askpass.bat"
+> "%GIT_ASKPASS%" echo @echo off
+>>"%GIT_ASKPASS%" echo echo(%%TOKEN%%
+set "GIT_TERMINAL_PROMPT=0"
+echo        已读取 token.txt，自动推送中（无需手动输入）...
+
+:push_now
+
+set "PUSHLOG=%USERPROFILE%\wb-push-log.txt"
+"%GIT_EXE%" push -u origin main > "%PUSHLOG%" 2>&1
+if errorlevel 1 (
+  echo.
+  echo ---------- GitHub 返回的错误原文 ----------
+  type "%PUSHLOG%"
+  echo ------------------------------------------
+  findstr /I /C:"workflow" "%PUSHLOG%" >nul
+  if not errorlevel 1 goto :no_workflow_scope
+  echo.
+  echo [推送失败] 常见原因：
+  echo    1. 令牌不对或已过期 —— 必须是 PAT 令牌，不是 GitHub 登录密码
+  echo    2. 生成令牌时没有勾选 repo 权限
+  echo    3. 网络波动，过一会儿再双击本脚本重试
+  echo.
+  echo 省事办法：把令牌存成 token.txt 放到这个文件夹里，
+  echo           以后双击脚本就自动读取，不用再手动粘贴：
+  echo           %REPO_DIR%
+  goto :fail
+)
+echo.
+echo ---------- GitHub 返回信息 ----------
+type "%PUSHLOG%"
+echo -------------------------------------
+
+echo.
+echo ==========================================================
+echo   推送成功！配置已上线。
+echo.
+echo   配置地址分两种，按你的客户端对号入座：
+echo.
+echo   [鳄鱼影视仓 / Box 编译版]  单仓聚合（所有成功源站点合并）：
+echo   https://ghfast.top/https://raw.githubusercontent.com/1333555777/workbuddy-ysc-config/main/output/all.json
+echo.
+echo   [影视仓 / 支持多仓的客户端] 多仓订阅（各源可切换）：
+echo   https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/subscribe.json
+echo.
+echo   填错会报「解析配置失败」——多仓文件里没有 sites 字段，
+echo   只认单仓的盒子解析不出来。反过来把单仓文件填进多仓
+echo   客户端不会报错，只是少了个切源入口。
+echo.
+echo   千万别用 raw.githubusercontent.com —— 国内被 DNS 污染
+echo   （解析到 93.46.8.90 之类黑洞 IP），会一直报「拉取配置失败」。
+echo ==========================================================
+echo.
+echo   自动更新已开启：
+echo   .github/workflows/update.yml 每天 02:00 和 14:00(UTC)
+echo   自动跑一次更新脚本，配置会自己刷新，不必再来手动推。
+echo.
+echo   验证方法一：打开下面的网址，看到
+echo   Auto Update TVBox Configs 这个工作流即为生效：
+echo   https://github.com/1333555777/workbuddy-ysc-config/actions
+echo.
+echo   验证方法二：在该页面右侧点 Run workflow 手动跑一次，
+echo   若 output 内容更新了，说明自动更新确实在工作。
+echo ==========================================================
+echo.
+goto :end
+
+:no_workflow_scope
+echo.
+echo ==========================================================
+echo   令牌缺少【workflow】权限，工作流没推上去。
+echo   （配置本身没受影响，只是每日自动更新没开启）
+echo.
+echo   两步解决：
+echo    1. 打开 https://github.com/settings/tokens
+echo       选 Tokens (classic) → Generate new token (classic)
+echo       勾选 repo（整行） 和 workflow（这一项必须勾）
+echo       生成后点绿色【Copy】按钮
+echo.
+echo    2. 回仓库文件夹双击「一键推送-自动读剪贴板.bat」
+echo       它会自动把令牌写入 token.txt 并完成推送
+echo ==========================================================
+echo.
+goto :end
+
+:fail
+echo.
+echo 出错了，请把上面的提示截图发给我。
+:end
+if defined GIT_ASKPASS if exist "%GIT_ASKPASS%" del "%GIT_ASKPASS%" >nul 2>nul
+if defined PUSHLOG if exist "%PUSHLOG%" del "%PUSHLOG%" >nul 2>nul
+echo.
+pause

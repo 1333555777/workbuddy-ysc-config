@@ -1,0 +1,96 @@
+@echo off
+@rem ==========================================================
+@rem  佳佳在线 · 一键推送（自动读剪贴板）
+@rem  使用前：把本仓库文件夹放到 REPO_DIR 指向的路径，
+@rem  并把下面 1333555777 / workbuddy-ysc-config 改成你自己的。
+@rem  源文件是 UTF-8，必须用 scripts/encode_bat.py 转成 GBK+CRLF 才能双击运行
+@rem ==========================================================
+chcp 936 >nul
+title 佳佳在线 - 一键推送（自动读剪贴板）
+
+set "REPO_DIR=C:\Users\Administrator\WorkBuddy\2026-10-22-16-24-22\workbuddy-ysc-config"
+set "PUSH_BAT=%REPO_DIR%\push-tvboxy.bat"
+set "TOKENFILE=%REPO_DIR%\token.txt"
+set "ST=%USERPROFILE%\wb-clip-status.txt"
+set "PS=%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe"
+if not exist "%PS%" set "PS=powershell"
+
+echo ==========================================================
+echo   佳佳在线 · 一键推送
+echo   自动从【剪贴板】读取 GitHub 令牌，无需手动粘贴
+echo   目标仓库: 1333555777/workbuddy-ysc-config
+echo ==========================================================
+echo.
+
+if not exist "%REPO_DIR%\" (
+  echo [错误] 找不到目录:
+  echo        %REPO_DIR%
+  goto :end
+)
+
+REM ---------- 1/3 读剪贴板，交给 PowerShell 直接落盘 ----------
+echo [1/3] 正在读取剪贴板...
+echo.
+if exist "%ST%" del "%ST%" >nul 2>nul
+
+"%PS%" -NoProfile -ExecutionPolicy Bypass -STA -Command "$t = Get-Clipboard -Raw -ErrorAction SilentlyContinue; if ($t) { $t = $t.Trim() }; $s = 'EMPTY'; if ($t) { if ($t -match '^ghp_[A-Za-z0-9]{36}$' -or $t -match '^github_pat_[A-Za-z0-9_]{70,}$') { Set-Content -LiteralPath '%TOKENFILE%' -Value $t -Encoding Ascii; $s = 'OK' } elseif ($t -match '^(ghp_|github_pat_)') { $s = 'TRUNC' } else { $s = 'BAD' } }; Set-Content -LiteralPath '%ST%' -Value $s -Encoding Ascii"
+
+set "STATUS="
+if exist "%ST%" for /f "usebackq delims=" %%S in ("%ST%") do if not defined STATUS set "STATUS=%%S"
+if exist "%ST%" del "%ST%" >nul 2>nul
+
+if /i "%STATUS%"=="OK" goto :token_ok
+if /i "%STATUS%"=="EMPTY" goto :empty_clip
+if /i "%STATUS%"=="TRUNC" goto :trunc_clip
+goto :bad_clip
+
+:trunc_clip
+echo [错误] 令牌【不完整】—— 只复制了一部分，不是完整的令牌。
+echo.
+echo        GitHub 经典令牌是 ghp_ 后面跟 36 位字符，一共 40 位。
+echo        剪贴板里现在这串明显偏短，推上去会被 GitHub 拒绝。
+echo.
+echo        常见原因：
+echo          - 双击选中时只选中了半截
+echo          - 从聊天窗口复制时被截断了
+echo.
+echo        正确做法：回到 GitHub 令牌页面，点【Copy】按钮
+echo                 （按钮自动复制完整令牌，比手动选中可靠得多）
+goto :end
+
+:token_ok
+set "TOKEN="
+for /f "usebackq delims=" %%T in ("%TOKENFILE%") do if not defined TOKEN set "TOKEN=%%T"
+echo        读到了: %TOKEN:~0,8%********（已写入 token.txt）
+echo [2/3] 令牌已填入 token.txt
+echo [3/3] 开始推送...
+echo.
+if not exist "%PUSH_BAT%" (
+  echo [错误] 找不到推送脚本:
+  echo        %PUSH_BAT%
+  echo        请确认 push-tvboxy.bat 还在仓库文件夹里。
+  goto :end
+)
+call "%PUSH_BAT%"
+goto :end
+
+:empty_clip
+echo [错误] 没读到剪贴板内容（剪贴板是空的，或系统不允许读取）。
+echo.
+echo        正确顺序是:
+echo          1. 在 GitHub 令牌页面点一下【Copy】按钮
+echo          2. 回来双击本脚本
+echo.
+echo        若反复失败，请改用「记事本粘贴到 token.txt」的办法。
+goto :end
+
+:bad_clip
+echo [错误] 剪贴板里的内容不像 GitHub 令牌。
+echo        令牌以 ghp_ 或 github_pat_ 开头。
+echo.
+echo        请回到 GitHub 令牌页面，点一次【Copy】按钮再双击本脚本。
+goto :end
+
+:end
+echo.
+echo （本窗口可以关闭了）

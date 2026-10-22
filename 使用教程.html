@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>佳佳在线 · 影视仓配置 使用教程</title>
+<style>
+  :root{
+    --bg:#0f1419; --card:#1a2129; --line:#2a323c; --text:#e6edf3; --sub:#9aa7b4;
+    --brand:#ff6b35; --brand2:#ffa94d; --ok:#2ecc71; --warn:#ffb454; --bad:#ff5c5c;
+    --codebg:#0b0f14;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,"Segoe UI",Roboto,"Microsoft YaHei",sans-serif;line-height:1.7;padding:32px 16px 80px}
+  .wrap{max-width:880px;margin:0 auto}
+  h1{font-size:30px;margin-bottom:6px;background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{color:var(--sub);margin-bottom:28px;font-size:15px}
+  .status{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:10px;padding:16px 18px;margin-bottom:32px;font-size:14px}
+  .status b{color:var(--warn)}
+  h2{font-size:21px;margin:38px 0 14px;padding-bottom:8px;border-bottom:2px solid var(--line)}
+  h3{font-size:16px;margin:22px 0 10px;color:var(--brand2)}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:16px 0;position:relative}
+  .step .num{position:absolute;top:-14px;left:18px;background:var(--brand);color:#1a1008;font-weight:700;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .step h3{margin-top:6px}
+  .step p{color:var(--sub);font-size:14px;margin:6px 0}
+  code{background:var(--codebg);color:#7ee787;padding:2px 7px;border-radius:5px;font-family:"Cascadia Code",Consolas,monospace;font-size:13px}
+  .pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600;margin-right:6px}
+  .pill.ok{background:rgba(46,204,113,.16);color:var(--ok)}
+  .pill.warn{background:rgba(255,180,84,.16);color:var(--warn)}
+  .pill.bad{background:rgba(255,92,92,.16);color:var(--bad)}
+  .warn-box{background:rgba(255,180,84,.08);border:1px solid rgba(255,180,84,.3);border-radius:10px;padding:12px 16px;margin:12px 0;font-size:13.5px;color:#ffd9a0}
+  .warn-box b{color:var(--warn)}
+  .ok-box{background:rgba(46,204,113,.08);border:1px solid rgba(46,204,113,.3);border-radius:10px;padding:12px 16px;margin:12px 0;font-size:13.5px;color:#b6f0c8}
+  svg{display:block;width:100%;height:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;margin:18px 0}
+  .choice{display:flex;gap:14px;flex-wrap:wrap;margin:16px 0}
+  .choice .opt{flex:1;min-width:260px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .choice .opt.reco{border-color:var(--brand)}
+  .choice .tag{font-size:12px;color:var(--brand);font-weight:700;letter-spacing:1px}
+  .kv{font-family:monospace;font-size:13px;background:var(--codebg);padding:12px 14px;border-radius:8px;color:#c9d1d9;white-space:pre-wrap;margin:8px 0;overflow-x:auto}
+  ul{margin:8px 0 8px 20px;color:var(--sub);font-size:14px}
+  li{margin:5px 0}
+  .big{font-size:17px;color:var(--text);font-weight:600}
+  footer{margin-top:50px;color:var(--sub);font-size:12.5px;text-align:center;border-top:1px solid var(--line);padding-top:20px}
+  .hl{color:var(--brand2);font-weight:600}
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+  th,td{border:1px solid var(--line);padding:9px 11px;text-align:left}
+  th{background:#141a21;color:var(--brand2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>佳佳在线 · 影视仓配置 使用教程</h1>
+  <div class="lead">把 10 个公开影视源聚合、自动保鲜，再填进影视仓 / TVBox App 即可看片。</div>
+
+  <div class="status">
+    <b>⚠️ 当前状态：仓库已建好，但还只是本地文件，没有上线。</b><br>
+    README 里的订阅链接现在还是 <code>GITHUB_USER</code> 占位符，影视仓 App 暂时拉不到。<br>
+    要让 App 用上，请走下面 <b>方案 A</b> 把仓库推到你的 GitHub（一次性，约 5 分钟），再填 CDN 链接。<br>
+    想<b>立刻看片、先不部署</b>，见 <b>方案 B</b>。
+  </div>
+
+  <h2>一、整体数据流（看懂这个就不会填错）</h2>
+  <svg viewBox="0 0 680 230" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+        <path d="M0,0 L8,3 L0,6 Z" fill="#ffa94d"/>
+      </marker>
+    </defs>
+    <!-- sources -->
+    <rect x="10" y="80" width="120" height="70" rx="10" fill="#1a2129" stroke="#2a323c"/>
+    <text x="70" y="108" fill="#e6edf3" font-size="13" text-anchor="middle" font-weight="600">10 个源</text>
+    <text x="70" y="128" fill="#9aa7b4" font-size="10.5" text-anchor="middle">肥猫/王二小/小马</text>
+    <text x="70" y="142" fill="#9aa7b4" font-size="10.5" text-anchor="middle">佳佳在线…</text>
+    <!-- github action -->
+    <rect x="170" y="80" width="130" height="70" rx="10" fill="#1a2129" stroke="#ff6b35"/>
+    <text x="235" y="108" fill="#e6edf3" font-size="12.5" text-anchor="middle" font-weight="600">update.py</text>
+    <text x="235" y="126" fill="#9aa7b4" font-size="10.5" text-anchor="middle">抓取+合并</text>
+    <text x="235" y="140" fill="#9aa7b4" font-size="10.5" text-anchor="middle">每天自动跑</text>
+    <!-- github repo -->
+    <rect x="340" y="80" width="120" height="70" rx="10" fill="#1a2129" stroke="#2a323c"/>
+    <text x="400" y="108" fill="#e6edf3" font-size="12.5" text-anchor="middle" font-weight="600">GitHub 仓库</text>
+    <text x="400" y="126" fill="#9aa7b4" font-size="10.5" text-anchor="middle">output/all.json</text>
+    <text x="400" y="140" fill="#9aa7b4" font-size="10.5" text-anchor="middle">subscribe.json</text>
+    <!-- cdn -->
+    <rect x="500" y="80" width="100" height="70" rx="10" fill="#1a2129" stroke="#2a323c"/>
+    <text x="550" y="108" fill="#e6edf3" font-size="12" text-anchor="middle" font-weight="600">jsDelivr</text>
+    <text x="550" y="126" fill="#9aa7b4" font-size="10.5" text-anchor="middle">CDN 加速</text>
+    <text x="550" y="140" fill="#9aa7b4" font-size="10.5" text-anchor="middle">国内直连</text>
+    <!-- app -->
+    <rect x="500" y="10" width="100" height="50" rx="10" fill="#1a2129" stroke="#2ecc71"/>
+    <text x="550" y="40" fill="#e6edf3" font-size="12" text-anchor="middle" font-weight="600">影视仓 App</text>
+    <!-- arrows -->
+    <line x1="130" y1="115" x2="168" y2="115" stroke="#ffa94d" stroke-width="2" marker-end="url(#ar)"/>
+    <line x1="300" y1="115" x2="338" y2="115" stroke="#ffa94d" stroke-width="2" marker-end="url(#ar)"/>
+    <line x1="460" y1="115" x2="498" y2="115" stroke="#ffa94d" stroke-width="2" marker-end="url(#ar)"/>
+    <line x1="550" y1="80" x2="550" y2="62" stroke="#2ecc71" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="235" y="200" fill="#9aa7b4" font-size="11" text-anchor="middle">你只要做两件事：① 把仓库推上 GitHub　② 把 CDN 链接填进 App</text>
+  </svg>
+
+  <div class="choice">
+    <div class="opt reco">
+      <div class="tag">推荐 · 自动保鲜</div>
+      <div class="big">方案 A：部署到 GitHub</div>
+      <p style="color:var(--sub);font-size:13.5px;margin-top:6px">推一次，之后每天自动更新源、自动续命。App 里填 CDN 链接，长期稳定可用。</p>
+    </div>
+    <div class="opt">
+      <div class="tag">零部署 · 立刻看</div>
+      <div class="big">方案 B：直接用原始源</div>
+      <p style="color:var(--sub);font-size:13.5px;margin-top:6px">不部署仓库，App 里直接填佳佳在线的原始地址先看片。缺点：没有聚合保鲜，源挂了要自己换。</p>
+    </div>
+  </div>
+
+  <h2>二、方案 A · 部署到 GitHub（详细步骤）</h2>
+
+  <div class="step">
+    <div class="num">1</div>
+    <h3>准备两样东西</h3>
+    <ul>
+      <li>一个 <b>GitHub 账号</b>（没有就去 github.com 注册，免费）。</li>
+      <li>电脑上装好 <b>Git</b>（没装去 git-scm.com 下载安装，一路下一步）。</li>
+    </ul>
+  </div>
+
+  <div class="step">
+    <div class="num">2</div>
+    <h3>在 GitHub 新建一个空仓库</h3>
+    <p>登录 GitHub → 右上角 <b>+</b> → <b>New repository</b>。</p>
+    <ul>
+      <li>Repository name：<code>workbuddy-ysc-config</code>（必须和脚本里一致，否则链接对不上）</li>
+      <li>选 <span class="pill ok">Public</span>（私有仓库 jsDelivr CDN 拉不到）</li>
+      <li><b>不要</b>勾选 "Add a README file" / .gitignore / LICENSE（仓库要空着，由推送脚本初始化）</li>
+      <li>点 <b>Create repository</b></li>
+    </ul>
+    <div class="warn-box"><b>最容易填错：</b>仓库名要和脚本里写死的一致（<code>workbuddy-ysc-config</code>）。改了名就得同步改 update.py 的 REPO、README、两个 bat —— 别自找麻烦，先用这个名。</div>
+  </div>
+
+  <div class="step">
+    <div class="num">3</div>
+    <h3>改两个 bat 里的占位符（关键！）</h3>
+    <p>仓库文件夹里有两份 bat：<code>push-tvboxy.bat</code> 和 <code>一键推送-自动读剪贴板.bat</code>。用记事本打开，把下面两处改成你自己的：</p>
+    <table>
+      <tr><th>占位符</th><th>改成</th><th>在哪几行</th></tr>
+      <tr><td><code>GITHUB_USER</code></td><td>你的 GitHub 用户名</td><td>REMOTE_URL、credential.username、结尾的订阅/actions 链接</td></tr>
+      <tr><td><code>C:\Users\Administrator\Desktop\workbuddy-ysc-config</code></td><td>你本地实际放仓库的文件夹路径</td><td>REPO_DIR（第 13 行）</td></tr>
+    </table>
+    <div class="warn-box"><b>最容易填错：</b>
+      ① <code>GITHUB_USER</code> 没全替换（共出现 4~5 处，用记事本的"替换全部"一次改完）；<br>
+      ② <code>REPO_DIR</code> 还指向 <code>Desktop\...</code> 旧路径 —— 改成你真实路径，否则脚本找不到文件直接退出。
+    </div>
+  </div>
+
+  <div class="step">
+    <div class="num">4</div>
+    <h3>生成 GitHub 令牌（PAT）</h3>
+    <p>GitHub → 右上角头像 → <b>Settings</b> → 左侧最底 <b>Developer settings</b> → <b>Personal access tokens</b> → <b>Tokens (classic)</b> → <b>Generate new token (classic)</b>。</p>
+    <ul>
+      <li>Note：随便写，如 <code>tvbox-push</code></li>
+      <li>Expiration：选 <b>No expiration</b>（或 90 天，到期再换）</li>
+      <li>勾选 <span class="pill bad">repo</span>（整组勾上，含私有库权限）</li>
+      <li><b>额外勾选</b> <span class="pill warn">workflow</span>（⚠️ 不勾这个就推不了自动更新工作流！）</li>
+      <li>翻到底点 <b>Generate token</b> → 立刻 <b>复制</b> 那串 <code>ghp_xxx</code>（只显示一次）</li>
+    </ul>
+    <div class="warn-box"><b>最容易漏：</b>忘记勾 <code>workflow</code> scope。没有它，CI 工作流文件推不上去，以后就不能自动更新了。</div>
+  </div>
+
+  <div class="step">
+    <div class="num">5</div>
+    <h3>双击 bat 完成推送</h3>
+    <p>推荐用 <code>一键推送-自动读剪贴板.bat</code>：</p>
+    <ul>
+      <li>先把第 4 步复制的 token 留在剪贴板（Ctrl+C 复制后别动）；</li>
+      <li>双击 <code>一键推送-自动读剪贴板.bat</code>；</li>
+      <li>脚本自动读剪贴板里的 token → 写入 <code>token.txt</code> → git 初始化/提交/推送；</li>
+      <li>看到 "推送完成" 即成功。失败看窗口红字（多半是步骤 3 的占位符没改对）。</li>
+    </ul>
+    <div class="ok-box">推送成功后，去 GitHub 仓库页面就能看到 <code>output/</code> 文件夹和 README 了。</div>
+  </div>
+
+  <div class="step">
+    <div class="num">6</div>
+    <h3>手动跑一次工作流，刷新产物</h3>
+    <p>工作流是"定时+手动"，<b>不会</b>因为推送就自动跑。需要手动触发一次：</p>
+    <ul>
+      <li>仓库页 → 上方 <b>Actions</b> → 左侧 <b>Auto Update TVBox Configs</b> → 右侧 <b>Run workflow</b> → 确认跑绿色 ✓；</li>
+      <li>跑完回到仓库，<code>output/all.json</code>、<code>output/subscribe.json</code> 会被重新生成，README 状态表也刷新成最新；</li>
+      <li>之后每天 10:00 / 22:00（北京时间）自动跑，不用再管。</li>
+    </ul>
+  </div>
+
+  <h2>三、在影视仓 App 里填订阅地址</h2>
+  <p>工作流跑完后，把下面链接里的 <code>GITHUB_USER</code> 换成<b>你的用户名</b>，填进 App 的「设置 → 配置地址」。</p>
+
+  <table>
+    <tr><th>你的客户端</th><th>该填哪个文件</th><th>地址（替换 GITHUB_USER）</th></tr>
+    <tr>
+      <td>影视仓 / 支持多仓切源的客户端</td>
+      <td>多仓订阅</td>
+      <td><code>https://cdn.jsdelivr.net/gh/GITHUB_USER/workbuddy-ysc-config@main/output/subscribe.json</code></td>
+    </tr>
+    <tr>
+      <td>鳄鱼影视仓 / takagen99-Box 编译版</td>
+      <td>单仓聚合</td>
+      <td><code>https://cdn.jsdelivr.net/gh/GITHUB_USER/workbuddy-ysc-config@main/output/all.json</code></td>
+    </tr>
+  </table>
+
+  <div class="warn-box"><b>最容易填错：</b>单仓盒子（takagen99-Box 等）<b>必须</b>填 <code>all.json</code>。填成 <code>subscribe.json</code> 会因顶层没有 <code>sites</code> 字段而报「解析配置失败」。</div>
+
+  <div class="ok-box">
+    ✅ 填完点「确定 / 加载」，等几秒出分类栏即成功。以后源更新全自动，App 里重新加载配置即可。
+  </div>
+
+  <h2>四、方案 B · 不想部署，现在就看片</h2>
+  <p>跳过 GitHub，App 里直接填佳佳在线的<b>原始地址</b>（已验证为合法单仓配置）：</p>
+  <div class="kv">单仓①：https://jijietvbox.lol/xiaosha.json
+单仓②：https://jijietvbox.lol/jieluntan-fty.json</div>
+  <p>在 App「设置 → 配置地址」填上面任意一个即可。缺点：没有聚合保鲜，某源挂了得自己换地址。等哪天想省心了，再走方案 A。</p>
+
+  <h2>五、常见问题</h2>
+  <ul>
+    <li><b>App 报「拉取配置失败」？</b> 网络层问题（DNS 污染/超时）。国内一律用 <code>cdn.jsdelivr.net</code> 链接，别用 <code>raw.githubusercontent.com</code>。jsDelivr 偶尔抽风可换 <code>ghfast.top/https://raw...</code> 前缀。</li>
+    <li><b>App 报「解析配置失败」？</b> 格式不对——单仓盒子填了多仓订阅。换 <code>all.json</code>。</li>
+    <li><b>某个源一直失败？</b> 影视源域名寿命很短，是常态。脚本已做多地址回退，只把成功的写入；偶尔去 <code>config/sources.json</code> 把死的源换掉再推一次即可。</li>
+    <li><b>分类出来了但内容转圈？</b> 部分 Box 编译版冷启动 bug，与配置无关，重启 App 或重编译解决。</li>
+  </ul>
+
+  <footer>
+    本教程对应仓库：workbuddy-ysc-config · 品牌：佳佳在线<br>
+    所有配置来自互联网公开分享，仅供学习交流，请勿商用。
+  </footer>
+
+</div>
+</body>
+</html>

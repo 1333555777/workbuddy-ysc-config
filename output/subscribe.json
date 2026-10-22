@@ -1,0 +1,16 @@
+{
+  "urls": [
+    {
+      "name": "王二小",
+      "url": "https://cdn.jsdelivr.net/gh/GITHUB_USER/workbuddy-ysc-config@main/output/wangerxiao.json"
+    },
+    {
+      "name": "老刘备",
+      "url": "https://cdn.jsdelivr.net/gh/GITHUB_USER/workbuddy-ysc-config@main/output/laoliubei.json"
+    },
+    {
+      "name": "小马",
+      "url": "https://cdn.jsdelivr.net/gh/GITHUB_USER/workbuddy-ysc-config@main/output/xiaoma.json"
+    }
+  ]
+}

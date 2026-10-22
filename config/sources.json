@@ -1,0 +1,81 @@
+{
+  "description": "佳佳在线 / TVBox 配置源列表：聚合肥猫、王二小、老刘备、小马、4K小盒子、小盒子单仓、拾光多仓、挺好分享多仓、佳佳在线·小沙、佳佳在线·论坛等公开接口。源会频繁失效，请定期维护。",
+  "update_interval_hours": 12,
+  "sources": [
+    {
+      "id": "feimao",
+      "name": "肥猫",
+      "urls": [
+        "http://肥猫.net/tv",
+        "http://肥猫.com/",
+        "https://6296.kstore.vip/facat.json"
+      ]
+    },
+    {
+      "id": "wangerxiao",
+      "name": "王二小",
+      "urls": [
+        "https://d.kstore.dev/download/9280/wex.json",
+        "https://9280.kstore.vip/newwex.json",
+        "http://new.王二小放牛娃.top"
+      ]
+    },
+    {
+      "id": "laoliubei",
+      "name": "老刘备",
+      "urls": [
+        "https://raw.liucn.cc/box/m.json"
+      ]
+    },
+    {
+      "id": "xiaoma",
+      "name": "小马",
+      "urls": [
+        "https://szyyds.cn/tv/x.json"
+      ]
+    },
+    {
+      "id": "4k",
+      "name": "4K小盒子",
+      "urls": [
+        "http://xhztv.top/4k.json",
+        "http://xhztv.top/xhz"
+      ]
+    },
+    {
+      "id": "xiaohezi",
+      "name": "小盒子单仓",
+      "urls": [
+        "http://xhztv.top/xhz"
+      ]
+    },
+    {
+      "id": "shiguang",
+      "name": "拾光多仓",
+      "urls": [
+        "http://xmbjm.fh4u.org/dc.txt"
+      ]
+    },
+    {
+      "id": "tinghao",
+      "name": "挺好分享多仓",
+      "urls": [
+        "http://ztha.top/TVBox/GYCK.json"
+      ]
+    },
+    {
+      "id": "jiajia_xiaosha",
+      "name": "佳佳在线·小沙",
+      "urls": [
+        "https://jijietvbox.lol/xiaosha.json"
+      ]
+    },
+    {
+      "id": "jiajia_jieluntan",
+      "name": "佳佳在线·论坛",
+      "urls": [
+        "https://jijietvbox.lol/jieluntan-fty.json"
+      ]
+    }
+  ]
+}
