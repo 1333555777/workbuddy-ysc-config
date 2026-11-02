@@ -1,10 +1,6 @@
 {
   "urls": [
     {
-      "name": "肥猫",
-      "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/feimao.json"
-    },
-    {
       "name": "王二小",
       "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/wangerxiao.json"
     },
@@ -31,14 +27,6 @@
     {
       "name": "挺好分享多仓",
       "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/tinghao.json"
-    },
-    {
-      "name": "佳佳在线·小沙",
-      "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/jiajia_xiaosha.json"
-    },
-    {
-      "name": "佳佳在线·论坛",
-      "url": "https://cdn.jsdelivr.net/gh/1333555777/workbuddy-ysc-config@main/output/jiajia_jieluntan.json"
     }
   ]
 }
