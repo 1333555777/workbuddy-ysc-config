@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-02 02:48:41",
-  "success": 9,
+  "updated_at": "2026-11-02 17:02:59",
+  "success": 10,
   "total": 10,
   "sources": {
     "feimao": {
@@ -41,9 +41,9 @@
     },
     "shiguang": {
       "name": "拾光多仓",
-      "ok": false,
+      "ok": true,
       "type": null,
-      "error": "http://xmbjm.fh4u.org/dc.txt: <urlopen error [Errno -3] Temporary failure in name resolution>"
+      "error": "无法解析为 JSON"
     },
     "tinghao": {
       "name": "挺好分享多仓",
