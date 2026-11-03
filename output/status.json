@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-03 06:38:32",
-  "success": 7,
+  "updated_at": "2026-11-03 17:12:41",
+  "success": 9,
   "total": 10,
   "sources": {
     "feimao": {
       "name": "肥猫",
       "ok": false,
       "type": null,
-      "error": "无法解析为 JSON"
+      "error": "https://6296.kstore.vip/facat.json: HTTP Error 401: "
     },
     "wangerxiao": {
       "name": "王二小",
@@ -53,15 +53,15 @@
     },
     "jiajia_xiaosha": {
       "name": "佳佳在线·小沙",
-      "ok": false,
-      "type": null,
-      "error": "https://jijietvbox.lol/xiaosha.json: HTTP Error 502: Bad Gateway"
+      "ok": true,
+      "type": "single",
+      "error": null
     },
     "jiajia_jieluntan": {
       "name": "佳佳在线·论坛",
-      "ok": false,
-      "type": null,
-      "error": "https://jijietvbox.lol/jieluntan-fty.json: HTTP Error 502: Bad Gateway"
+      "ok": true,
+      "type": "single",
+      "error": null
     }
   }
 }
