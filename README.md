@@ -7,7 +7,7 @@
 <!--STATUS_START-->
 ## 一、源可用性状态
 
-> 🔄 最近更新：2026-11-06 04:58:47（北京时间） · 成功 **9/10** 个源
+> 🔄 最近更新：2026-11-06 17:03:37（北京时间） · 成功 **7/10** 个源
 
 | 配置源 | 状态 | 类型 | 说明 |
 |---|---|---|---|
@@ -19,8 +19,8 @@
 | 小盒子单仓 | ✅ 成功 | single | - |
 | 拾光多仓 | ✅ 成功 | - | 无法解析为 JSON |
 | 挺好分享多仓 | ✅ 成功 | multi | - |
-| 佳佳在线·小沙 | ✅ 成功 | single | - |
-| 佳佳在线·论坛 | ✅ 成功 | single | - |
+| 佳佳在线·小沙 | ❌ 失败 | - | https://jijietvbox.lol/xiaosha.json: HTTP Error 404: Not Found |
+| 佳佳在线·论坛 | ❌ 失败 | - | https://jijietvbox.lol/jieluntan-fty.json: HTTP Error 404: Not Found |
 <!--STATUS_END-->
 
 ## 二、在影视仓 / TVBox 中使用

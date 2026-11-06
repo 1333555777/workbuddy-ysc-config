@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-06 04:58:47",
-  "success": 9,
+  "updated_at": "2026-11-06 17:03:37",
+  "success": 7,
   "total": 10,
   "sources": {
     "feimao": {
@@ -53,15 +53,15 @@
     },
     "jiajia_xiaosha": {
       "name": "佳佳在线·小沙",
-      "ok": true,
-      "type": "single",
-      "error": null
+      "ok": false,
+      "type": null,
+      "error": "https://jijietvbox.lol/xiaosha.json: HTTP Error 404: Not Found"
     },
     "jiajia_jieluntan": {
       "name": "佳佳在线·论坛",
-      "ok": true,
-      "type": "single",
-      "error": null
+      "ok": false,
+      "type": null,
+      "error": "https://jijietvbox.lol/jieluntan-fty.json: HTTP Error 404: Not Found"
     }
   }
 }
