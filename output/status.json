@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-22 04:26:01",
-  "success": 7,
+  "updated_at": "2026-11-22 17:31:10",
+  "success": 8,
   "total": 10,
   "sources": {
     "feimao": {
       "name": "肥猫",
-      "ok": false,
-      "type": null,
-      "error": "https://6296.kstore.vip/facat.json: HTTP Error 401: "
+      "ok": true,
+      "type": "single",
+      "error": null
     },
     "wangerxiao": {
       "name": "王二小",
